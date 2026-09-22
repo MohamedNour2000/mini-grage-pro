@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 
 export default function Layout() {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="d-flex flex-column min-vh-100">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
@@ -10,21 +13,21 @@ export default function Layout() {
         <button
           className="navbar-toggler"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navMenu"
+          onClick={() => setOpen(o => !o)}
+          aria-expanded={open}
         >
           <span className="navbar-toggler-icon" />
         </button>
-        <div className="collapse navbar-collapse" id="navMenu">
+        <div className={`collapse navbar-collapse${open ? ' show' : ''}`}>
           <ul className="navbar-nav ms-auto gap-2">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/">Dashboard</NavLink>
+              <NavLink className="nav-link" to="/" onClick={() => setOpen(false)}>Dashboard</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/reparations">Réparations</NavLink>
+              <NavLink className="nav-link" to="/reparations" onClick={() => setOpen(false)}>Réparations</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/reparations/new">+ Nouvelle Réparation</NavLink>
+              <NavLink className="nav-link" to="/reparations/new" onClick={() => setOpen(false)}>+ Nouvelle Réparation</NavLink>
             </li>
           </ul>
         </div>

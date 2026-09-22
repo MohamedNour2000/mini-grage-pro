@@ -1,19 +1,29 @@
-FROM richarvey/nginx-php-fpm:latest
+FROM php:8.3-fpm
+
+WORKDIR /var/www/html
+
+# Dépendances système
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    libzip-dev \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+
+# Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Copier le code du backend
 COPY . /var/www/html
 
-# Configurations d'environnement
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
-
-# Variables Laravel
-ENV APP_ENV production
-ENV APP_DEBUG false
-
 # Installer les dépendances Composer
-RUN composer install --no-dev --working-dir=/var/www/html
+RUN composer install --no-interaction --prefer-dist --no-progress --no-scripts --no-plugins
 
-EXPOSE 80
+# Générer les scripts Laravel après installation
+RUN php artisan package:discover --ansi || true
+
+EXPOSE 9000
