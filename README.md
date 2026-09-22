@@ -73,3 +73,7 @@ php artisan test
 ---
 
 Projet réalisé dans le cadre du cours **Développement Web Niveau Avancé** — OIF S5
+
+## Dépôt GitHub
+
+[https://github.com/MohamedNour2000/Mini_projet_num_Mohamed_Nour_Sylla_S6](https://github.com/MohamedNour2000/Mini_projet_num_Mohamed_Nour_Sylla_S6.git)
